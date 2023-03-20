@@ -4,6 +4,7 @@ using GerenciamentoEstoque.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciamentoEstoque.Infra.Migrations
 {
     [DbContext(typeof(GerenciamentoEstoqueDataContext))]
-    partial class GerenciamentoEstoqueDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230320033646_Fornecedor-MIGRAT")]
+    partial class FornecedorMIGRAT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace GerenciamentoEstoque.Infra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FornecedorProduto", b =>
-                {
-                    b.Property<Guid>("FornecedoresId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProdutoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("FornecedoresId", "ProdutoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("FornecedorProduto");
-                });
 
             modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Fornecedor", b =>
                 {
@@ -58,34 +46,6 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.ToTable("Fornecedor", (string)null);
                 });
 
-            modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.ItemPedido", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PedidoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("PrecoUnitario")
-                        .HasColumnType("DECIMAL(18,2)");
-
-                    b.Property<Guid>("ProdutoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("Quantidade")
-                        .HasPrecision(0)
-                        .HasColumnType("BIGINT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("ItemPedido", (string)null);
-                });
-
             modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Pedido", b =>
                 {
                     b.Property<Guid>("Id")
@@ -95,15 +55,10 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("FornecedorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("StatusPedido")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FornecedorId");
 
                     b.ToTable("Pedido", (string)null);
                 });
@@ -136,19 +91,19 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.ToTable("Produto", (string)null);
                 });
 
-            modelBuilder.Entity("FornecedorProduto", b =>
+            modelBuilder.Entity("PedidoProduto", b =>
                 {
-                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Fornecedor", null)
-                        .WithMany()
-                        .HasForeignKey("FornecedoresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("PedidoId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Produto", null)
-                        .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("ProdutosId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PedidoId", "ProdutosId");
+
+                    b.HasIndex("ProdutosId");
+
+                    b.ToTable("PedidoProduto", (string)null);
                 });
 
             modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Fornecedor", b =>
@@ -226,35 +181,19 @@ namespace GerenciamentoEstoque.Infra.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.ItemPedido", b =>
+            modelBuilder.Entity("PedidoProduto", b =>
                 {
                     b.HasOne("GerenciamentoEstoque.Domain.Entities.Pedido", null)
-                        .WithMany("ItensPedidos")
-                        .HasForeignKey("PedidoId");
-
-                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId")
+                        .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Produto");
-                });
-
-            modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Pedido", b =>
-                {
-                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Fornecedor", "Fornecedor")
+                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Produto", null)
                         .WithMany()
-                        .HasForeignKey("FornecedorId")
+                        .HasForeignKey("ProdutosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Fornecedor");
-                });
-
-            modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Pedido", b =>
-                {
-                    b.Navigation("ItensPedidos");
                 });
 #pragma warning restore 612, 618
         }

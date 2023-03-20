@@ -4,6 +4,7 @@ using GerenciamentoEstoque.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciamentoEstoque.Infra.Migrations
 {
     [DbContext(typeof(GerenciamentoEstoqueDataContext))]
-    partial class GerenciamentoEstoqueDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230320042204_Second")]
+    partial class Second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +67,6 @@ namespace GerenciamentoEstoque.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PedidoId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("DECIMAL(18,2)");
 
@@ -78,8 +78,6 @@ namespace GerenciamentoEstoque.Infra.Migrations
                         .HasColumnType("BIGINT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
 
                     b.HasIndex("ProdutoId");
 
@@ -134,6 +132,21 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Produto", (string)null);
+                });
+
+            modelBuilder.Entity("ItemPedidoPedido", b =>
+                {
+                    b.Property<Guid>("ItensPedidosId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PedidoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ItensPedidosId", "PedidoId");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("ItemPedidoPedido");
                 });
 
             modelBuilder.Entity("FornecedorProduto", b =>
@@ -228,10 +241,6 @@ namespace GerenciamentoEstoque.Infra.Migrations
 
             modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.ItemPedido", b =>
                 {
-                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Pedido", null)
-                        .WithMany("ItensPedidos")
-                        .HasForeignKey("PedidoId");
-
                     b.HasOne("GerenciamentoEstoque.Domain.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
@@ -252,9 +261,19 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.Navigation("Fornecedor");
                 });
 
-            modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Pedido", b =>
+            modelBuilder.Entity("ItemPedidoPedido", b =>
                 {
-                    b.Navigation("ItensPedidos");
+                    b.HasOne("GerenciamentoEstoque.Domain.Entities.ItemPedido", null)
+                        .WithMany()
+                        .HasForeignKey("ItensPedidosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Pedido", null)
+                        .WithMany()
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

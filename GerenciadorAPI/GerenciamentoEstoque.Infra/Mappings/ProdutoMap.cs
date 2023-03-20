@@ -30,6 +30,9 @@ namespace GerenciamentoEstoque.Infra.Mappings
                 .IsRequired()
                 .HasColumnType("BIGINT")
                 .HasPrecision(0);
+
+            builder.HasMany(x => x.Fornecedores)
+                .WithMany();
         }
     }
 }
