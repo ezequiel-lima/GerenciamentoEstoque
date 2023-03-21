@@ -25,14 +25,6 @@ namespace GerenciamentoEstoque.Infra.Mappings
             builder.Property(x => x.Preco)
                 .IsRequired()
                 .HasColumnType("DECIMAL(18,2)");
-
-            builder.Property(x => x.QuantidadeEmEstoque)
-                .IsRequired()
-                .HasColumnType("BIGINT")
-                .HasPrecision(0);
-
-            builder.HasMany(x => x.Fornecedores)
-                .WithMany();
         }
     }
 }

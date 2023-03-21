@@ -1,4 +1,6 @@
+using GerenciamentoEstoque.Domain.Entities;
 using GerenciamentoEstoque.Infra;
+using GerenciamentoEstoque.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +28,18 @@ void ConfigureServices(WebApplicationBuilder builder)
     {
         options.UseSqlServer(connectionString, x => x.MigrationsAssembly("GerenciamentoEstoque.Infra"));
     });
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    var services = GetServiceCollection(builder);
+}
+
+IServiceCollection GetServiceCollection(WebApplicationBuilder builder)
+{
+    // Adicionando serviços
+    var services = builder.Services;
+    services.AddScoped<IReadRepository<Produto>, ApplicationRepository<Produto>>();
+
+    return services;
 }

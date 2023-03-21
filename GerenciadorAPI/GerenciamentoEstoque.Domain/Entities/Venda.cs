@@ -2,19 +2,19 @@
 
 namespace GerenciamentoEstoque.Domain.Entities
 {
-    public class ItemPedido : Entity
+    public class Venda : Entity
     {
-        protected ItemPedido() { }
+        protected Venda() { }
 
-        public ItemPedido(Produto produto, int quantidade, decimal precoUnitario)
+        public Venda(Produto produto, DateTime data, int quantidade)
         {
             Produto = produto;
+            Data = data;
             Quantidade = quantidade;
-            PrecoUnitario = precoUnitario;
         }
 
         public Produto Produto { get; private set; }
+        public DateTime Data { get; private set; }
         public int Quantidade { get; private set; }
-        public decimal PrecoUnitario { get; private set; }
     }
 }

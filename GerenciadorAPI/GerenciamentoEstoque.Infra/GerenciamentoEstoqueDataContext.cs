@@ -11,13 +11,14 @@ namespace GerenciamentoEstoque.Infra
         }
 
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Estoque> Estoques { get; set; }
+        public DbSet<Venda> Vendas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new EstoqueMap());
             modelBuilder.ApplyConfiguration(new ProdutoMap());
-            modelBuilder.ApplyConfiguration(new FornecedorMap());
-            modelBuilder.ApplyConfiguration(new PedidoMap());
-            modelBuilder.ApplyConfiguration(new ItemPedidoMap());
+            modelBuilder.ApplyConfiguration(new VendaMap());
         }
     }
 }
