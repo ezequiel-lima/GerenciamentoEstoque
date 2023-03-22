@@ -42,7 +42,6 @@ namespace GerenciamentoEstoque.Infra.Data
 
         public void Delete(T entity)
         {
-            //T existing = _dbSet.Find(entity);
             _dbSet.Remove(entity);
         }
 
