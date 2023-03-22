@@ -1,6 +1,8 @@
 using GerenciamentoEstoque.Domain.Entities;
 using GerenciamentoEstoque.Infra;
 using GerenciamentoEstoque.Infra.Data;
+using GerenciamentoEstoque.WebApi.Services.Interfaces;
+using GerenciamentoEstoque.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +41,10 @@ IServiceCollection GetServiceCollection(WebApplicationBuilder builder)
 {
     // Adicionando serviços
     var services = builder.Services;
+    services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
     services.AddScoped<IReadRepository<Produto>, ApplicationRepository<Produto>>();
+    services.AddScoped<IWriteRepository<Produto>, ApplicationRepository<Produto>>();
+    services.AddScoped<IProdutoService, ProdutoService>();
 
     return services;
 }

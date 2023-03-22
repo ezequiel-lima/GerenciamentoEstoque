@@ -2,7 +2,7 @@
 
 namespace GerenciamentoEstoque.Infra.Data
 {
-    public class UnitOfWork : IRepositoryFactory, IDisposable
+    public class UnitOfWork : IRepositoryFactory, IUnitOfWork, IDisposable
     {
         private readonly IServiceProvider _serviceProvider;
         private Dictionary<Type, object> _serviceProviderCache;
