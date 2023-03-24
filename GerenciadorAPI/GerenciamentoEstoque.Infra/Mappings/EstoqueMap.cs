@@ -12,8 +12,8 @@ namespace GerenciamentoEstoque.Infra.Mappings
 
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Produto)
-                .WithMany();
+            builder.Property(x => x.ProdutoId)
+                .IsRequired();
 
             builder.Property(x => x.QuantidadeProduto)
                 .IsRequired()

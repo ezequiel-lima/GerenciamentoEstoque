@@ -6,13 +6,15 @@ namespace GerenciamentoEstoque.Domain.Entities
     {       
         protected Estoque() { }
 
-        public Estoque(Produto produto, int quantidadeProduto)
+        public Estoque(Guid produtoId, int quantidadeProduto, string produtoNome)
         {
-            Produto = produto;
+            ProdutoId = produtoId;
             QuantidadeProduto = quantidadeProduto;
+            ProdutoNome = produtoNome;
         }
 
-        public Produto Produto { get; private set; }
+        public Guid ProdutoId { get; private set; }
+        public string ProdutoNome { get; private set; }
         public int QuantidadeProduto { get; private set; }
     }
 }

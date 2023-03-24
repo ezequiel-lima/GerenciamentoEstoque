@@ -44,7 +44,13 @@ IServiceCollection GetServiceCollection(WebApplicationBuilder builder)
     services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
     services.AddScoped<IReadRepository<Produto>, ApplicationRepository<Produto>>();
     services.AddScoped<IWriteRepository<Produto>, ApplicationRepository<Produto>>();
+    services.AddScoped<IReadRepository<Venda>, ApplicationRepository<Venda>>();
+    services.AddScoped<IWriteRepository<Venda>, ApplicationRepository<Venda>>();
+    services.AddScoped<IReadRepository<Estoque>, ApplicationRepository<Estoque>>();
+    services.AddScoped<IWriteRepository<Estoque>, ApplicationRepository<Estoque>>();
     services.AddScoped<IProdutoService, ProdutoService>();
+    services.AddScoped<IVendaService, VendaService>();
+    services.AddScoped<IEstoqueService, EstoqueService>();
 
     return services;
 }

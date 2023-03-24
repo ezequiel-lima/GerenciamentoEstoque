@@ -4,6 +4,7 @@ using GerenciamentoEstoque.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciamentoEstoque.Infra.Migrations
 {
     [DbContext(typeof(GerenciamentoEstoqueDataContext))]
-    partial class GerenciamentoEstoqueDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230323093037_Seila")]
+    partial class Seila
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +33,6 @@ namespace GerenciamentoEstoque.Infra.Migrations
 
                     b.Property<Guid>("ProdutoId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ProdutoNome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("QuantidadeProduto")
                         .HasPrecision(0)
