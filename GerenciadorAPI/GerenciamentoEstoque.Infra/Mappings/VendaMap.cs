@@ -12,8 +12,8 @@ namespace GerenciamentoEstoque.Infra.Mappings
 
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Produto)
-                .WithMany();
+            builder.Property(x => x.ProdutoId)
+                .IsRequired();
 
             builder.Property(x => x.Data)
                 .IsRequired();
@@ -21,9 +21,6 @@ namespace GerenciamentoEstoque.Infra.Mappings
             builder.Property(x => x.Quantidade)
                 .IsRequired()
                 .HasColumnType("BIGINT");
-
-            builder.HasOne(x => x.Produto)
-                .WithMany();
         }
     }
 }

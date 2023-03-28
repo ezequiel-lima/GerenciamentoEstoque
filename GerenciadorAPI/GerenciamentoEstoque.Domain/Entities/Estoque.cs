@@ -16,5 +16,10 @@ namespace GerenciamentoEstoque.Domain.Entities
         public Guid ProdutoId { get; private set; }
         public string ProdutoNome { get; private set; }
         public int QuantidadeProduto { get; private set; }
+
+        public void AtualizarEstoque(Venda venda)
+        {
+            QuantidadeProduto = QuantidadeProduto - venda.Quantidade;
+        }
     }
 }

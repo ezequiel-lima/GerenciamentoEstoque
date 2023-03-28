@@ -15,6 +15,11 @@ namespace GerenciamentoEstoque.Infra.Mappings
             builder.Property(x => x.ProdutoId)
                 .IsRequired();
 
+            builder.Property(x => x.ProdutoNome)
+                .IsRequired()
+                .HasColumnType("NVARCHAR")
+                .HasMaxLength(100);
+
             builder.Property(x => x.QuantidadeProduto)
                 .IsRequired()
                 .HasColumnType("BIGINT")

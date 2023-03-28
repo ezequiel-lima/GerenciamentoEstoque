@@ -59,5 +59,20 @@ namespace GerenciamentoEstoque.WebApi.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<ActionResult<Estoque>> UpdateEstoqueQuantidade(Venda venda)
+        {
+            var result = _readRepository.FindByCondition(x => x.ProdutoId == venda.ProdutoId).FirstOrDefault();
+
+            if (result is null)
+                return new StatusCodeResult(404);
+
+            result.AtualizarEstoque(venda);
+            _writeRepository.Update(result);
+
+            await _unitOfWork.CommitAsync();
+
+            return result;
+        }
     }
 }
