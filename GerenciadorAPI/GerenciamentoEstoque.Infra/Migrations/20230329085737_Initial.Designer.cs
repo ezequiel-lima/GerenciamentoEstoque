@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciamentoEstoque.Infra.Migrations
 {
     [DbContext(typeof(GerenciamentoEstoqueDataContext))]
-    [Migration("20230323093037_Seila")]
-    partial class Seila
+    [Migration("20230329085737_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,11 @@ namespace GerenciamentoEstoque.Infra.Migrations
 
                     b.Property<Guid>("ProdutoId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProdutoNome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
 
                     b.Property<long>("QuantidadeProduto")
                         .HasPrecision(0)
@@ -79,25 +84,16 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.Property<Guid>("ProdutoId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProdutoNome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("Quantidade")
                         .HasColumnType("BIGINT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProdutoId");
-
                     b.ToTable("Venda", (string)null);
-                });
-
-            modelBuilder.Entity("GerenciamentoEstoque.Domain.Entities.Venda", b =>
-                {
-                    b.HasOne("GerenciamentoEstoque.Domain.Entities.Produto", "Produto")
-                        .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
                 });
 #pragma warning restore 612, 618
         }

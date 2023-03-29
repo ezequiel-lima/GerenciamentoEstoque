@@ -81,6 +81,10 @@ namespace GerenciamentoEstoque.Infra.Migrations
                     b.Property<Guid>("ProdutoId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProdutoNome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("Quantidade")
                         .HasColumnType("BIGINT");
 

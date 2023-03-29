@@ -25,7 +25,11 @@ namespace GerenciamentoEstoque.WebApi.Services
 
         public async Task<ActionResult<Venda>> Create(Venda venda)
         {
-            var result = new Venda(venda.ProdutoId, DateTime.Now, venda.Quantidade);
+            var produto = await _readRepositoryProduto.FindByCondition(x => x.Id == venda.ProdutoId).FirstOrDefaultAsync();
+            if (produto is null)
+                return new StatusCodeResult(404);
+
+            var result = new Venda(venda.ProdutoId, produto.Nome, DateTime.Now, venda.Quantidade);
             await _estoqueService.UpdateEstoqueQuantidade(result);
             await _writeRepository.AddAsync(result);
             await _unitOfWork.CommitAsync();
